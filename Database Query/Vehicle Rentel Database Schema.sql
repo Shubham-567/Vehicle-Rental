@@ -40,3 +40,8 @@ CREATE TABLE bookings (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id) ON DELETE CASCADE
 );
+
+
+SELECT * FROM users;
+SELECT * FROM vehicles;
+SELECT * FROM bookings;
