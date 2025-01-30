@@ -10,12 +10,10 @@ export const createBooking = async (req, res) => {
   }
 
   try {
-    await db
-      .promise()
-      .query(
-        "INSERT INTO bookings (user_id, vehicle_id, start_date, end_date, total_price, status, payment_status) VALUES (?, ?, ?, ?, ?, 'Pending', 'Pending')",
-        [user_id, vehicle_id, start_date, end_date, total_price]
-      );
+    await db.query(
+      "INSERT INTO bookings (user_id, vehicle_id, start_date, end_date, total_price, status, payment_status) VALUES (?, ?, ?, ?, ?, 'Pending', 'Pending')",
+      [user_id, vehicle_id, start_date, end_date, total_price]
+    );
 
     res.status(201).json({ message: "Booking created successfully" });
   } catch (err) {
@@ -36,9 +34,10 @@ export const getUserBookings = async (req, res) => {
   }
 
   try {
-    const [bookings] = await db
-      .promise()
-      .query("SELECT * FROM bookings WHERE user_id = ? ", [user_id]);
+    const [bookings] = await db.query(
+      "SELECT * FROM bookings WHERE user_id = ? ",
+      [user_id]
+    );
 
     if (bookings.length === 0) {
       return res.status(404).json({ message: "No booking found" });
@@ -64,12 +63,10 @@ export const updateBookingStatus = async (req, res) => {
   }
 
   try {
-    const [result] = await db
-      .promise()
-      .query("UPDATE bookings SET status = ? WHERE booking_id = ?", [
-        status,
-        id,
-      ]);
+    const [result] = await db.query(
+      "UPDATE bookings SET status = ? WHERE booking_id = ?",
+      [status, id]
+    );
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Booking not found" });

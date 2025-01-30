@@ -3,9 +3,9 @@ import db from "../config/db.js";
 // Get all available vehicles
 export const getVehicles = async (req, res) => {
   try {
-    const [vehicles] = await db
-      .promise()
-      .query("SELECT * FROM vehicles WHERE availability = 1");
+    const [vehicles] = await db.query(
+      "SELECT * FROM vehicles WHERE availability = 1"
+    );
     res.status(200).json({ vehicles });
   } catch (err) {
     console.error("Database error:", err);
@@ -18,9 +18,10 @@ export const getVehicleByID = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [vehicle] = await db
-      .promise()
-      .query("SELECT * FROM vehicles WHERE vehicle_id = ?", [id]);
+    const [vehicle] = await db.query(
+      "SELECT * FROM vehicles WHERE vehicle_id = ?",
+      [id]
+    );
 
     if (vehicle.length === 0) {
       return res.status(404).json({ message: "Vehicle not found" });
@@ -42,12 +43,10 @@ export const addVehicle = async (req, res) => {
   }
 
   try {
-    await db
-      .promise()
-      .query(
-        "INSERT INTO vehicles (name, brand, type, price_per_day, image_url) VALUES (?, ?, ?, ?, ?)",
-        [name, brand, type, price_per_day, image_url]
-      );
+    await db.query(
+      "INSERT INTO vehicles (name, brand, type, price_per_day, image_url) VALUES (?, ?, ?, ?, ?)",
+      [name, brand, type, price_per_day, image_url]
+    );
 
     res.status(201).json({ message: "Vehicle added successfully" });
   } catch (err) {
@@ -75,12 +74,10 @@ export const updateVehicle = async (req, res) => {
   }
 
   try {
-    const [result] = await db
-      .promise()
-      .query(
-        "UPDATE vehicles SET name = ?, brand = ?, type = ?, price_per_day = ?, image_url = ?, availability = ? WHERE vehicle_id = ?",
-        [name, brand, type, price_per_day, image_url, availability, id]
-      );
+    const [result] = await db.query(
+      "UPDATE vehicles SET name = ?, brand = ?, type = ?, price_per_day = ?, image_url = ?, availability = ? WHERE vehicle_id = ?",
+      [name, brand, type, price_per_day, image_url, availability, id]
+    );
 
     if (result.affectedRows === 0) {
       return res
@@ -100,9 +97,10 @@ export const deleteVehicle = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [result] = await db
-      .promise()
-      .query("DELETE FROM vehicles WHERE vehicle_id = ?", [id]);
+    const [result] = await db.query(
+      "DELETE FROM vehicles WHERE vehicle_id = ?",
+      [id]
+    );
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Vehicle not found" });

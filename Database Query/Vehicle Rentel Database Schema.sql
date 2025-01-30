@@ -45,3 +45,7 @@ CREATE TABLE bookings (
 SELECT * FROM users;
 SELECT * FROM vehicles;
 SELECT * FROM bookings;
+
+
+-- To start server use: net start mysql80
+-- run terminal as administrator

@@ -6,7 +6,7 @@ import { validationResult } from "express-validator"; // for input validation
 export const registerUser = async (req, res) => {
   const { name, email, password, phone, role } = req.body;
 
-  // Check for validation errors 
+  // Check for validation errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ error: errors.array() });
@@ -14,9 +14,10 @@ export const registerUser = async (req, res) => {
 
   try {
     // Check if email already exists
-    const [existingUser] = await db
-      .promise()
-      .query("SELECT * FROM users WHERE email = ?", [email]);
+    const [existingUser] = await db.query(
+      "SELECT * FROM users WHERE email = ?",
+      [email]
+    );
     if (existingUser.length > 0) {
       return res.status(400).json({ message: "Email already in use" });
     }
@@ -25,12 +26,10 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // insert user into database
-    await db
-      .promise()
-      .query(
-        "INSERT INTO users (name, email, password, phone, role) VALUES (?, ?, ?, ?, ?)",
-        [name, email, hashedPassword, phone, role || "customer"]
-      );
+    await db.query(
+      "INSERT INTO users (name, email, password, phone, role) VALUES (?, ?, ?, ?, ?)",
+      [name, email, hashedPassword, phone, role || "customer"]
+    );
 
     res.status(201).json({
       message: "User registered successfully",
@@ -54,9 +53,9 @@ export const loginUser = async (req, res) => {
 
   try {
     // get user from database
-    const [users] = await db
-      .promise()
-      .query("SELECT * FROM users WHERE email = ?", [email]);
+    const [users] = await db.query("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
 
     if (users.length === 0) {
       return res.status(400).json({ message: "User not found" });
