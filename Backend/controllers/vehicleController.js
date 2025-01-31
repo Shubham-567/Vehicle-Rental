@@ -14,7 +14,7 @@ export const getVehicles = async (req, res) => {
 };
 
 // Get a vehicle by ID
-export const getVehicleByID = async (req, res) => {
+export const getVehicleById = async (req, res) => {
   const { id } = req.params;
 
   try {

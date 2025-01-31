@@ -4,13 +4,13 @@ import db from "../config/db.js";
 import { validationResult } from "express-validator"; // for input validation
 
 export const registerUser = async (req, res) => {
-  const { name, email, password, phone, role } = req.body;
-
   // Check for validation errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ error: errors.array() });
   }
+
+  const { name, email, password, phone, role } = req.body;
 
   try {
     // Check if email already exists
@@ -35,6 +35,8 @@ export const registerUser = async (req, res) => {
       message: "User registered successfully",
       user: { name, email, phone, role },
     });
+
+    console.log("User registered successfully");
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error, please try again later" });
@@ -43,13 +45,13 @@ export const registerUser = async (req, res) => {
 
 // Login user
 export const loginUser = async (req, res) => {
-  const { email, password } = req.body;
-
   // Check for validation errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ error: errors.array() });
   }
+
+  const { email, password } = req.body;
 
   try {
     // get user from database
@@ -66,6 +68,7 @@ export const loginUser = async (req, res) => {
     // compare the password
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
+      console.log("Invalid Password");
       return res.status(400).json({ message: "Invalid Password " });
     }
 
@@ -76,6 +79,8 @@ export const loginUser = async (req, res) => {
 
     // return token and user data
     res.status(200).json({ token, user });
+
+    console.log("User log in successfully");
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error, Please try again later" });
