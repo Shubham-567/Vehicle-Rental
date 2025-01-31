@@ -73,9 +73,13 @@ export const loginUser = async (req, res) => {
     }
 
     // generate Json Web Token
-    const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { user_id: user.user_id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     // return token and user data
     res.status(200).json({ token, user });

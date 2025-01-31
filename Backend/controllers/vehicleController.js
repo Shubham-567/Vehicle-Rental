@@ -1,4 +1,5 @@
 import db from "../config/db.js";
+import { validationResult } from "express-validator"; // for input validation
 
 // Get all available vehicles
 export const getVehicles = async (req, res) => {
@@ -36,16 +37,19 @@ export const getVehicleById = async (req, res) => {
 
 // Add a new vehicle (Admin only)
 export const addVehicle = async (req, res) => {
-  const { name, brand, type, price_per_day, image_url } = req.body;
-
-  if (!name || !brand || !type || !price_per_day || !image_url) {
-    return res.status(400).json({ message: "All fields are required" });
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ error: errors.array() });
   }
+
+  const { name, brand, type, price_per_day, image_url } = req.body;
+  const owner_id = req.user_id;
 
   try {
     await db.query(
-      "INSERT INTO vehicles (name, brand, type, price_per_day, image_url) VALUES (?, ?, ?, ?, ?)",
-      [name, brand, type, price_per_day, image_url]
+      "INSERT INTO vehicles (owner_id, name, brand, type, price_per_day, image_url) VALUES (?, ?, ?, ?, ?, ?)",
+      [owner_id, name, brand, type, price_per_day, image_url]
     );
 
     res.status(201).json({ message: "Vehicle added successfully" });
@@ -57,21 +61,15 @@ export const addVehicle = async (req, res) => {
 
 // Update vehicle details (Admin only)
 export const updateVehicle = async (req, res) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ error: errors.array() });
+  }
+
   const { id } = req.params;
   const { name, brand, type, price_per_day, image_url, availability } =
     req.body;
-
-  // Ensure all required fields are provided (allowing availability = 0)
-  if (
-    !name ||
-    !brand ||
-    !type ||
-    !price_per_day ||
-    !image_url ||
-    availability == null
-  ) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
 
   try {
     const [result] = await db.query(

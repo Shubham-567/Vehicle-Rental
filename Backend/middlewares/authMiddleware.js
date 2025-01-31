@@ -3,11 +3,13 @@ import db from "../config/db.js";
 
 // Token verification middleware
 export const verifyToken = (req, res, next) => {
-  const token = req.headers["authorization"];
+  const authHeader = req.headers["authorization"];
 
-  if (!token) {
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(403).json({ message: "Authorization token required" });
   }
+
+  const token = authHeader.split(" ")[1]; // Extract the actual token
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
@@ -18,7 +20,6 @@ export const verifyToken = (req, res, next) => {
 
     req.user_id = decoded.user_id;
     req.role = decoded.role;
-
     next();
   });
 };
