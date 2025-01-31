@@ -18,16 +18,17 @@ export const verifyToken = (req, res, next) => {
         .json({ message: "Invalid token, please log in again" });
     }
 
-    req.user_id = decoded.user_id;
-    req.role = decoded.role;
+    req.user = {
+      id: decoded.user_id,
+      role: decoded.role,
+    };
     next();
   });
 };
 
 // admin role check middleware
 export const isAdmin = (req, res, next) => {
-  const { role } = req; // get role directly from decoded token
-  if (role !== "admin") {
+  if (!req.user || req.user.role !== "admin") {
     return res.status(403).json({ message: "Access denied. Admins only" });
   }
 

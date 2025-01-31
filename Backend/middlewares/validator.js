@@ -33,3 +33,25 @@ export const validateVehicle = [
     .isBoolean()
     .withMessage("Availability must be a boolean value (true/false)"),
 ];
+
+export const validateBooking = [
+  body("vehicle_id")
+    .isInt({ min: 1 })
+    .withMessage("Valid vehicle id is required"),
+  body("start_date")
+    .isISO8601()
+    .withMessage("Valid start date is required (YYYY-MM-DD) "),
+  body("end_date")
+    .isISO8601()
+    .withMessage("Valid end date is required (YYYY-MM-DD)")
+    .custom((value, { req }) => {
+      if (new Date(value) <= new Date(req.body.start_date)) {
+        throw new Error("End date must be after start date");
+      }
+
+      return true;
+    }),
+  body("total_price")
+    .isFloat({ min: 1 })
+    .withMessage("Total price must be a positive number"),
+];

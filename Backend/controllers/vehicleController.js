@@ -44,7 +44,7 @@ export const addVehicle = async (req, res) => {
   }
 
   const { name, brand, type, price_per_day, image_url } = req.body;
-  const owner_id = req.user_id;
+  const owner_id = req.user.id; // // this is set by verifyToken middleware
 
   try {
     await db.query(

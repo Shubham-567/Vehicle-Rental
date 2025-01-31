@@ -1,13 +1,16 @@
 import db from "../config/db.js";
+import { validationResult } from "express-validator";
 
 // create new booking
 export const createBooking = async (req, res) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ error: errors.array() });
+  }
+
   const { vehicle_id, start_date, end_date, total_price } = req.body;
   const user_id = req.user.id; // this is set by verifyToken middleware
-
-  if (!vehicle_id || !start_date || !end_date || !total_price) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
 
   try {
     await db.query(
@@ -26,8 +29,9 @@ export const createBooking = async (req, res) => {
 export const getUserBookings = async (req, res) => {
   const user_id = req.user.id; // Ensure the user ID matches the authenticated user
   const { userId } = req.params; // userId from the request parameters
+  console.log("Decoded Token:", req.user);
 
-  if (user_id !== userId) {
+  if (String(user_id) !== String(userId)) {
     return res
       .status(403)
       .json({ message: "You are not authorized to access these bookings" });
@@ -59,7 +63,10 @@ export const updateBookingStatus = async (req, res) => {
     !status ||
     !["Confirmed", "Canceled", "Pending", "Completed"].includes(status)
   ) {
-    return res.status(400).json({ message: "Invalid status" });
+    return res.status(400).json({
+      message:
+        "Invalid status, Status must be one of: 'Confirmed', 'Canceled', 'Pending', 'Completed'",
+    });
   }
 
   try {
