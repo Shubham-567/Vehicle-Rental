@@ -1,5 +1,5 @@
-import db from "../config/db.js";
-import { validationResult } from "express-validator";
+import { validationResult } from "express-validator"; // for validation
+import Booking from "../models/Booking.js";
 
 // create new booking
 export const createBooking = async (req, res) => {
@@ -13,11 +13,7 @@ export const createBooking = async (req, res) => {
   const user_id = req.user.id; // this is set by verifyToken middleware
 
   try {
-    await db.query(
-      "INSERT INTO bookings (user_id, vehicle_id, start_date, end_date, total_price, status, payment_status) VALUES (?, ?, ?, ?, ?, 'Pending', 'Pending')",
-      [user_id, vehicle_id, start_date, end_date, total_price]
-    );
-
+    Booking.create(user_id, { vehicle_id, start_date, end_date, total_price });
     res.status(201).json({ message: "Booking created successfully" });
   } catch (err) {
     // if vehicle id is wrong we will get server error
@@ -30,7 +26,6 @@ export const createBooking = async (req, res) => {
 export const getUserBookings = async (req, res) => {
   const user_id = req.user.id; // Ensure the user ID matches the authenticated user
   const { userId } = req.params; // userId from the request parameters
-  console.log("Decoded Token:", req.user);
 
   if (String(user_id) !== String(userId)) {
     return res
@@ -39,10 +34,7 @@ export const getUserBookings = async (req, res) => {
   }
 
   try {
-    const [bookings] = await db.query(
-      "SELECT * FROM bookings WHERE user_id = ? ",
-      [user_id]
-    );
+    const bookings = await Booking.getByUserId(user_id);
 
     if (bookings.length === 0) {
       return res.status(404).json({ message: "No booking found" });
@@ -71,10 +63,7 @@ export const updateBookingStatus = async (req, res) => {
   }
 
   try {
-    const [result] = await db.query(
-      "UPDATE bookings SET status = ? WHERE booking_id = ?",
-      [status, id]
-    );
+    const [result] = await Booking.updateStatus(id, status);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Booking not found" });
@@ -86,3 +75,4 @@ export const updateBookingStatus = async (req, res) => {
     res.status(500).json({ message: "Server error, please try again later" });
   }
 };
+
