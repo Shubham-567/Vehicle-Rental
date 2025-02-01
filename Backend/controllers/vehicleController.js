@@ -1,12 +1,11 @@
-import db from "../config/db.js";
 import { validationResult } from "express-validator"; // for input validation
+import Vehicle from "../models/Vehicle.js";
 
 // Get all available vehicles
 export const getVehicles = async (req, res) => {
   try {
-    const [vehicles] = await db.query(
-      "SELECT * FROM vehicles WHERE availability = 1"
-    );
+    const vehicles = await Vehicle.getAllAvailable();
+
     res.status(200).json({ vehicles });
   } catch (err) {
     console.error("Database error:", err);
@@ -19,16 +18,13 @@ export const getVehicleById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [vehicle] = await db.query(
-      "SELECT * FROM vehicles WHERE vehicle_id = ?",
-      [id]
-    );
+    const vehicle = await Vehicle.getById(id);
 
-    if (vehicle.length === 0) {
+    if (!vehicle) {
       return res.status(404).json({ message: "Vehicle not found" });
     }
 
-    res.status(200).json({ vehicle: vehicle[0] });
+    res.status(200).json({ vehicle });
   } catch (err) {
     console.error("Database error:", err);
     res.status(500).json({ message: "Server error, please try again later" });
@@ -44,13 +40,16 @@ export const addVehicle = async (req, res) => {
   }
 
   const { name, brand, type, price_per_day, image_url } = req.body;
-  const owner_id = req.user.id; // // this is set by verifyToken middleware
+  const owner_id = req.user.id; // set by verifyToken middleware
 
   try {
-    await db.query(
-      "INSERT INTO vehicles (owner_id, name, brand, type, price_per_day, image_url) VALUES (?, ?, ?, ?, ?, ?)",
-      [owner_id, name, brand, type, price_per_day, image_url]
-    );
+    await Vehicle.create(owner_id, {
+      name,
+      brand,
+      type,
+      price_per_day,
+      image_url,
+    });
 
     res.status(201).json({ message: "Vehicle added successfully" });
   } catch (err) {
@@ -72,10 +71,14 @@ export const updateVehicle = async (req, res) => {
     req.body;
 
   try {
-    const [result] = await db.query(
-      "UPDATE vehicles SET name = ?, brand = ?, type = ?, price_per_day = ?, image_url = ?, availability = ? WHERE vehicle_id = ?",
-      [name, brand, type, price_per_day, image_url, availability, id]
-    );
+    const [result] = await Vehicle.update(id, {
+      name,
+      brand,
+      type,
+      price_per_day,
+      image_url,
+      availability,
+    });
 
     if (result.affectedRows === 0) {
       return res
@@ -95,10 +98,7 @@ export const deleteVehicle = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [result] = await db.query(
-      "DELETE FROM vehicles WHERE vehicle_id = ?",
-      [id]
-    );
+    const [result] = await Vehicle.delete(id);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Vehicle not found" });
