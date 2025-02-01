@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import db from "../config/db.js";
 import { validationResult } from "express-validator"; // for input validation
+import User from "../models/User.js";
 
 export const registerUser = async (req, res) => {
   // Check for validation errors
@@ -14,22 +14,17 @@ export const registerUser = async (req, res) => {
 
   try {
     // Check if email already exists
-    const [existingUser] = await db.query(
-      "SELECT * FROM users WHERE email = ?",
-      [email]
-    );
-    if (existingUser.length > 0) {
+    const existingUser = await User.findByEmail(email);
+
+    if (existingUser) {
       return res.status(400).json({ message: "Email already in use" });
     }
 
     // hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // insert user into database
-    await db.query(
-      "INSERT INTO users (name, email, password, phone, role) VALUES (?, ?, ?, ?, ?)",
-      [name, email, hashedPassword, phone, role || "customer"]
-    );
+    // create user in db
+    await User.create({ name, email, password: hashedPassword, phone, role });
 
     res.status(201).json({
       message: "User registered successfully",
@@ -54,16 +49,12 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // get user from database
-    const [users] = await db.query("SELECT * FROM users WHERE email = ?", [
-      email,
-    ]);
+    // get user from db
+    const user = await User.findByEmail(email);
 
-    if (users.length === 0) {
+    if (!user) {
       return res.status(400).json({ message: "User not found" });
     }
-
-    const user = users[0];
 
     // compare the password
     const isValidPassword = await bcrypt.compare(password, user.password);
