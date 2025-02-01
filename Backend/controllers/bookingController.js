@@ -20,6 +20,7 @@ export const createBooking = async (req, res) => {
 
     res.status(201).json({ message: "Booking created successfully" });
   } catch (err) {
+    // if vehicle id is wrong we will get server error
     console.error("Error creating booking: ", err);
     res.status(500).json({ message: "Server error, please try again later" });
   }

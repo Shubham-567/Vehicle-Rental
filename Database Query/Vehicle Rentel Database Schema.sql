@@ -41,10 +41,16 @@ CREATE TABLE bookings (
     FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id) ON DELETE CASCADE
 );
 
+-- ALTER TABLE users AUTO_INCREMENT = 0;
+-- ALTER TABLE vehicles AUTO_INCREMENT = 0;
+-- DELETE FROM vehicles WHERE vehicle_id > 0;
 
 SELECT * FROM users;
 SELECT * FROM vehicles;
 SELECT * FROM bookings;
+
+-- dummy data for vehicle table
+INSERT INTO vehicles (name, brand, type, price_per_day, image_url) VALUES ("Toyota Corolla", "Toyota", "Car", 50.00, "https://example.com/toyota.jpg");
 
 
 -- To start server use: net start mysql80
