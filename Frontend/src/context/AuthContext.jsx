@@ -36,6 +36,53 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  // Handle user registration
+  const register = async (name, email, password, phone) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        { name, email, password, phone },
+        { withCredentials: true }
+      );
+
+      const { token, user } = response.data;
+
+      // Store authentication details
+      sessionStorage.setItem("authToken", token);
+      sessionStorage.setItem("user", JSON.stringify(user));
+
+      setUser(user);
+      setIsAuthenticated(true);
+      console.log("Registration success");
+    } catch (err) {
+      console.error("Registration failed", err);
+
+      if (err.code === "ERR_NETWORK") {
+        setError(
+          "Unable to connect to the server. Please check your internet connection or try again later."
+        );
+      } else if (err.response) {
+        if (err.response.status === 400 && err.response.data?.error) {
+          const messages = err.response.data.error
+            .map((err) => err.msg)
+            .join(" | ");
+          setError(messages);
+        } else {
+          setError(err.response.data?.message || "Registration failed.");
+        }
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
+
+      setIsAuthenticated(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Handle user login
   const login = async (email, password) => {
     setLoading(true);
@@ -91,7 +138,15 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, isAuthenticated, error, login, logout }}>
+      value={{
+        user,
+        loading,
+        isAuthenticated,
+        error,
+        login,
+        register,
+        logout,
+      }}>
       {children}
     </AuthContext.Provider>
   );

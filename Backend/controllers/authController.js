@@ -24,11 +24,40 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // create user in db
-    await User.create({ name, email, password: hashedPassword, phone, role });
+    const result = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      phone,
+      role,
+    });
 
+    // ensure insertId is available
+    if (!result || !result.insertId) {
+      throw new Error("User registration failed, no user ID returned.");
+    }
+
+    // fetch the newly created user
+    const newUser = await User.findById(result.insertId);
+
+    // generate Json web token
+    const token = jwt.sign(
+      { user_id: newUser.user_id, role: newUser.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    // send response with user data and token
     res.status(201).json({
       message: "User registered successfully",
-      user: { name, email, phone, role },
+      token,
+      user: {
+        user_id: newUser.user_id,
+        name: newUser.name,
+        email: newUser.email,
+        phone: newUser.phone,
+        role: newUser.role,
+      },
     });
 
     console.log("User registered successfully");
