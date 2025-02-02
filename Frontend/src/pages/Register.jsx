@@ -52,82 +52,105 @@ const Register = () => {
   };
 
   return (
-    <div className='registerContainer'>
-      <div>
-        <h2>Register</h2>
+    <div className='container mt-5 mb-5'>
+      <div className='row justify-content-center'>
+        <div className='col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5'>
+          <div className='card shadow-lg p-4'>
+            <h2 className='text-center text-primary mb-4'>Register</h2>
 
-        {formError && <p style={{ color: "red" }}>{formError}</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
+            {formError && (
+              <div className='alert alert-danger text-center mb-4' role='alert'>
+                {formError}
+              </div>
+            )}
+            {error && (
+              <div className='alert alert-danger text-center mb-4' role='alert'>
+                {error}
+              </div>
+            )}
 
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Name</label>
-            <input
-              type='text'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+            <form onSubmit={handleSubmit}>
+              <div className='mb-3'>
+                <label className='form-label'>Name</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className='mb-3'>
+                <label className='form-label'>Email</label>
+                <input
+                  type='email'
+                  className='form-control'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className='mb-3'>
+                <label className='form-label'>Phone</label>
+                <input
+                  type='tel'
+                  className='form-control'
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className='mb-3'>
+                <label className='form-label'>Password</label>
+                <input
+                  type={isPasswordVisible ? "text" : "password"}
+                  className='form-control'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className='mb-3'>
+                <label className='form-label'>Confirm Password</label>
+                <input
+                  type={isPasswordVisible ? "text" : "password"}
+                  className='form-control'
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className='form-check mb-3'>
+                <input
+                  type='checkbox'
+                  className='form-check-input'
+                  id='show-password'
+                  checked={isPasswordVisible}
+                  onChange={() => setIsPasswordVisible(!isPasswordVisible)}
+                />
+                <label className='form-check-label' htmlFor='show-password'>
+                  Show Password
+                </label>
+              </div>
+
+              <button
+                type='submit'
+                className='btn btn-primary w-100'
+                disabled={loading}>
+                {loading ? "Registering..." : "Register"}
+              </button>
+
+              <p className='mt-3 text-center'>
+                Already have an account? <a href='/login'>Login</a>
+              </p>
+            </form>
           </div>
-
-          <div>
-            <label>Email</label>
-            <input
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <label>Password</label>
-            <input
-              type={isPasswordVisible ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <label>Confirm Password</label>
-            <input
-              type={isPasswordVisible ? "text" : "password"}
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <input
-              type='checkbox'
-              id='show-password'
-              checked={isPasswordVisible}
-              onChange={() => setIsPasswordVisible(!isPasswordVisible)}
-            />
-            <label htmlFor='show-password'>Show Password</label>
-          </div>
-
-          <div>
-            <label>Phone</label>
-            <input
-              type='tel'
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-            />
-          </div>
-
-          <button type='submit' disabled={loading}>
-            {loading ? "Registering..." : "Register"}
-          </button>
-
-          <p>
-            Already have an account? <a href='/login'>Login</a>
-          </p>
-        </form>
+        </div>
       </div>
     </div>
   );

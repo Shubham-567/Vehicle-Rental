@@ -41,9 +41,11 @@ CREATE TABLE bookings (
     FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id) ON DELETE CASCADE
 );
 
--- ALTER TABLE users AUTO_INCREMENT = 0;
+-- ALTER TABLE users AUTO_INCREMENT = 3;
 -- ALTER TABLE vehicles AUTO_INCREMENT = 0;
 -- DELETE FROM vehicles WHERE vehicle_id > 0;
+DELETE FROM users WHERE user_id > 2;
+
 
 SELECT * FROM users;
 SELECT * FROM vehicles;

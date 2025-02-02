@@ -23,52 +23,66 @@ const Login = () => {
   }, [isAuthenticated, navigate]);
 
   return (
-    <div className='loginContainer'>
-      <div>
-        <h2>Login</h2>
+    <div className='container mt-5'>
+      <div className='row justify-content-center'>
+        <div className='col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4'>
+          <div className='card shadow-lg p-4'>
+            <h2 className='text-center text-primary mb-4'>Login</h2>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+            {error ? (
+              <div className='alert alert-danger text-center mb-4' role='alert'>
+                {error}
+              </div>
+            ) : null}
 
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Email</label>
-            <input
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <form onSubmit={handleSubmit}>
+              <div className='mb-3'>
+                <label className='form-label'>Email</label>
+                <input
+                  type='email'
+                  className='form-control'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className='mb-3'>
+                <label className='form-label'>Password</label>
+                <input
+                  type={isPasswordVisible ? "text" : "password"}
+                  className='form-control'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <div className='form-check mt-2'>
+                  <input
+                    type='checkbox'
+                    className='form-check-input'
+                    id='show-password'
+                    checked={isPasswordVisible}
+                    onChange={() => setIsPasswordVisible(!isPasswordVisible)}
+                  />
+                  <label className='form-check-label' htmlFor='show-password'>
+                    Show Password
+                  </label>
+                </div>
+              </div>
+
+              <button
+                type='submit'
+                className='btn btn-primary w-100'
+                disabled={loading}>
+                {loading ? "Logging in..." : "Login"}
+              </button>
+
+              <p className='mt-3 text-center'>
+                Don't have an account? <a href='/register'>Register</a>
+              </p>
+            </form>
           </div>
-
-          <div>
-            <label>Password</label>
-            <input
-              type={isPasswordVisible ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-
-            <div>
-              <input
-                type='checkbox'
-                id='show-password'
-                checked={isPasswordVisible}
-                onChange={() => setIsPasswordVisible(!isPasswordVisible)}
-              />
-
-              <label htmlFor='show-password'>Show Password</label>
-            </div>
-          </div>
-
-          <button type='submit' disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
-          </button>
-
-          <p>
-            Don't have an account? <a href='/register'>Register</a>
-          </p>
-        </form>
+        </div>
       </div>
     </div>
   );
