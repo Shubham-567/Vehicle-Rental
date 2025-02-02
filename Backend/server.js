@@ -9,7 +9,13 @@ dotenv.config(); // Load environment variables
 const app = express();
 
 // Middlewares
-app.use(cors()); // Enable CORS
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow requests from frontend
+    methods: "GET,POST,PUT,DELETE", // Allowed HTTP methods
+    credentials: true, // Allow cookies & authentication headers
+  })
+); // Enable CORS
 app.use(express.json()); // Parse JSON requests
 app.use(helmet()); // add security headers
 
