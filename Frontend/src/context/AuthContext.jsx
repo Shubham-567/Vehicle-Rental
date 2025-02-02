@@ -12,9 +12,9 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Check if there's a saved user session from localStorage
+  // Check if there's a saved user session from Session Storage
   useEffect(() => {
-    const storedToken = localStorage.getItem("authToken");
+    const storedToken = sessionStorage.getItem("authToken");
 
     if (storedToken) {
       try {
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
         if (decodedToken.exp * 1000 < Date.now()) {
           logout(); // Token expired
         } else {
-          const storedUser = JSON.parse(localStorage.getItem("user"));
+          const storedUser = JSON.parse(sessionStorage.getItem("user"));
           setUser(storedUser);
           setIsAuthenticated(true);
         }
@@ -54,11 +54,12 @@ export const AuthProvider = ({ children }) => {
       const { token, user } = response.data;
 
       // Store authentication details
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      sessionStorage.setItem("authToken", token);
+      sessionStorage.setItem("user", JSON.stringify(user));
 
       setUser(user);
       setIsAuthenticated(true);
+      console.log("Login success");
     } catch (err) {
       console.error("Login failed", err);
 
@@ -80,8 +81,8 @@ export const AuthProvider = ({ children }) => {
 
   // Handle user logout
   const logout = () => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("authToken");
+    sessionStorage.removeItem("user");
 
     setUser(null);
     setIsAuthenticated(false);

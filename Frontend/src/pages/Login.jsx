@@ -7,8 +7,9 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  // handle form submission
+  // handle form submission visible
   const handleSubmit = async (e) => {
     e.preventDefault(); // to prevent default behavior (page reload)
     await login(email, password);
@@ -42,11 +43,22 @@ const Login = () => {
           <div>
             <label>Password</label>
             <input
-              type='password'
+              type={isPasswordVisible ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+
+            <div>
+              <input
+                type='checkbox'
+                id='show-password'
+                checked={isPasswordVisible}
+                onChange={() => setIsPasswordVisible(!isPasswordVisible)}
+              />
+
+              <label htmlFor='show-password'>Show Password</label>
+            </div>
           </div>
 
           <button type='submit' disabled={loading}>
