@@ -1,0 +1,83 @@
+.searchBox {
+  background-color: #f7f7f7;
+  margin-top: 30px;
+  padding: 1.5rem;
+  border-radius: 0.75em;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 4px 20px #afafaf;
+}
+
+.inputGroup {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.selectBox,
+.inputField {
+  padding: 0.5em 0.75em;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  font-size: 1rem;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.inputField {
+  flex: 1;
+  min-width: 200px;
+}
+
+.selectBox:focus,
+.inputField:focus,
+.dateInput:focus {
+  border-color: #ff6f00;
+  box-shadow: 0 0 5px rgba(255, 111, 0, 0.5);
+  outline: none;
+}
+
+.dateGroup {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.label {
+  font-weight: bold;
+  color: #444;
+  font-size: 14px;
+}
+
+.dateInput {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.searchButton {
+  margin-top: 18px;
+  padding: 0.5em 1.75em;
+  font-size: 1.25rem;
+  border: none;
+  border-radius: 12px;
+  background-color: #ff6f00;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.searchButton:hover {
+  background-color: #cc5800;
+  transform: translateY(-2px);
+}
+
+.searchButton:active {
+  transform: translateY(1px);
+  background-color: #b24e00;
+}

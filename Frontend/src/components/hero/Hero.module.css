@@ -11,42 +11,40 @@
 }
 
 .heroText h1 {
-  font-size: 64px;
+  font-size: 4rem;
   width: 90%;
   font-weight: bold;
+  line-height: 1.2;
 }
 
 .heroText p {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: normal;
   width: 70%;
-}
-
-.searchBox {
-  width: 80%;
-  height: 150px;
-  background-color: #e7e7e7;
-  border-radius: 20px;
+  line-height: 1.5;
+  color: #666;
 }
 
 .heroImage {
+  position: relative;
   border-radius: 10px;
   margin: 100px 0;
-  position: relative;
   height: 100%;
 }
 
 .heroImage .imgBackground {
-  width: 80%;
-  height: 520px;
-  border-radius: 20px 20px 0px 0px;
   position: absolute;
   top: -75px;
   left: 60px;
-  background: linear-gradient(180deg, #f09819, #ff522f00);
+  width: 80%;
+  height: 520px;
+  border-radius: 20px 20px 0 0;
+  background: linear-gradient(180deg, #f09819, rgba(255, 82, 47, 0));
 }
 
 .heroImage img {
   width: 580px;
   transform: scaleX(-1);
+  display: block;
+  border-radius: 10px;
 }

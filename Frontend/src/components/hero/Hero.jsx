@@ -1,5 +1,6 @@
 import styles from "./Hero.module.css";
 import heroImg from "../../assets/hero.png";
+import SearchBar from "../Search/SearchBar";
 
 const Hero = () => {
   return (
@@ -11,7 +12,7 @@ const Hero = () => {
           vehicle, location, and dates to get started!
         </p>
 
-        <div className={styles.searchBox}></div>
+        <SearchBar />
       </div>
       <div className={styles.heroImage}>
         <div className={styles.imgBackground}></div>
