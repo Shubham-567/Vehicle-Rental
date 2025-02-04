@@ -5,10 +5,17 @@ body {
   padding: 0;
   box-sizing: border-box;
   background-color: #feffff;
-  font-family: "Inter", serif;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
 }
 
 section {
-  margin: 0 50px;
+  margin: 0 50px 50px;
   padding: 0;
+}
+
+hr {
+  border: none;
+  border-bottom: 10px dotted rgb(255, 187, 0);
+  width: 100px;
+  margin: 50px auto;
 }
