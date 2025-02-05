@@ -7,32 +7,32 @@ export const VehicleContext = createContext();
 export const VehicleProvider = ({ children }) => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, , setError] = useState(null);
+  const [error, setError] = useState(null);
 
-  const API_URL = "http://localhost:5000/api/vehicles";
+  const API_URL = "http://localhost:5000/api/vehicle";
 
   // fetch all vehicles
-  useEffect(() => {
-    const fetchVehicles = async () => {
-      setLoading(true);
-      setError(null);
+  const fetchVehicles = useCallback(async () => {
+    setLoading(true);
+    setError(null);
 
-      try {
-        const response = await axios.get(API_URL);
-        setVehicles(response.data.vehicles);
-      } catch (err) {
-        console.error("Failed to fetch vehicles", err);
-        setError(
-          err.response?.data?.message ||
-            "Failed to fetch vehicles. Please try again later."
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchVehicles();
+    try {
+      const response = await axios.get(API_URL);
+      setVehicles(response.data.vehicles);
+    } catch (err) {
+      console.error("Failed to fetch vehicles", err);
+      setError(
+        err.response?.data?.message ||
+          "Failed to fetch vehicles. Please try again later."
+      );
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchVehicles();
+  }, [fetchVehicles]);
 
   // add a new vehicle
   const addVehicle = useCallback(async (vehicleData) => {
@@ -66,7 +66,7 @@ export const VehicleProvider = ({ children }) => {
       });
       setVehicles((prevVehicles) =>
         prevVehicles.map((vehicle) =>
-          vehicle.id === id ? { ...vehicle, ...updatedData } : vehicle
+          vehicle.id === id ? { ...vehicle, ...updateData } : vehicle
         )
       );
     } catch (err) {
@@ -107,6 +107,7 @@ export const VehicleProvider = ({ children }) => {
         vehicles,
         loading,
         error,
+        fetchVehicles,
         addVehicle,
         updateVehicle,
         deleteVehicle,

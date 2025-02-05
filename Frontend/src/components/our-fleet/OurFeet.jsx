@@ -1,35 +1,19 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styles from "./OurFleet.module.css";
 import VehicleCard from "../vehicle-card/VehicleCard";
+import { VehicleContext } from "../../context/VehicleContext";
 
 const OurFleet = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [visibleVehicles, setVisibleVehicles] = useState(8);
 
-  const vehicles = [
-    { id: 1, name: "Car 1", category: "Car" },
-    { id: 2, name: "Bike 1", category: "Bike" },
-    { id: 3, name: "SUV 1", category: "SUV" },
-    { id: 4, name: "Car 2", category: "Car" },
-    { id: 5, name: "Bike 2", category: "Bike" },
-    { id: 6, name: "SUV 2", category: "SUV" },
-    { id: 7, name: "Car 3", category: "Car" },
-    { id: 8, name: "Bike 3", category: "Bike" },
-    { id: 9, name: "SUV 3", category: "SUV" },
-    { id: 10, name: "Car 4", category: "Car" },
-    { id: 11, name: "Bike 4", category: "Bike" },
-    { id: 12, name: "SUV 4", category: "SUV" },
-  ];
+  const { vehicles, loading, error } = useContext(VehicleContext);
 
   const filteredVehicles = vehicles.filter(
-    (vehicle) => activeCategory === "All" || vehicle.category === activeCategory
+    (vehicle) => activeCategory === "All" || vehicle.type === activeCategory
   );
 
   const displayedVehicles = filteredVehicles.slice(0, visibleVehicles);
-
-  const loadMoreHandler = () => {
-    setVisibleVehicles((prev) => prev + 4);
-  };
 
   return (
     <section className={styles.ourFleet}>
@@ -53,20 +37,33 @@ const OurFleet = () => {
         ))}
       </div>
 
-      <div className={styles.gridContainer}>
-        {displayedVehicles.map((vehicle) => (
-          <VehicleCard key={vehicle.id} vehicleName={vehicle.name} />
-        ))}
-      </div>
-
-      {filteredVehicles.length > visibleVehicles && (
-        <button
-          type='button'
-          className={styles.loadMore}
-          onClick={loadMoreHandler}>
-          Load More
-        </button>
+      {loading ? (
+        <div className={styles.loading}>
+          <p>Loading, Please Wait....</p>
+        </div>
+      ) : error ? (
+        <div className={`${styles.error} `}>
+          <p>Failed to load vehicles. Please try again later.</p>
+        </div>
+      ) : (
+        <div className={styles.gridContainer}>
+          {displayedVehicles.map((vehicle) => (
+            <VehicleCard key={vehicle.vehicle_id} vehicleData={vehicle} />
+          ))}
+        </div>
       )}
+
+      {!loading &&
+        !error &&
+        displayedVehicles.length > 0 &&
+        displayedVehicles.length < filteredVehicles.length && (
+          <button
+            type='button'
+            className={styles.loadMore}
+            onClick={() => setVisibleVehicles((prev) => prev + 4)}>
+            Load More
+          </button>
+        )}
     </section>
   );
 };

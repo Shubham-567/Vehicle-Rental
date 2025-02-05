@@ -1,21 +1,28 @@
 import styles from "./VehicleCard.module.css";
 
 const VehicleCard = ({
-  vehicleName = "Toyota Corolla",
-  brand = "Toyota",
-  imgUrl = "https://cdni.autocarindia.com/ExtraImages/20220401051803_Toyota%20GR%20Corolla.jpg",
-  price = 999,
+  vehicleData = {
+    name: "Tesla Model X",
+    brand: "Tesla",
+    image_url:
+      "https://5.imimg.com/data5/SELLER/Default/2024/6/430715318/YW/FA/II/224538398/2020-tesla-model-x-long-range-plus-500x500.jpg",
+    price_per_day: 999.0,
+  },
 }) => {
   return (
     <div className={styles.card}>
-      <h3 className={styles.vehicleName}>{vehicleName}</h3>
-      <p className={styles.brand}>{brand}</p>
+      <h3 className={styles.vehicleName}>{vehicleData.name}</h3>
+      <p className={styles.brand}>{vehicleData.brand}</p>
 
-      <img src={imgUrl} alt='vehicle Image' className={styles.vehicleImg} />
+      <img
+        src={vehicleData.image_url}
+        alt={vehicleData.name + " Image"}
+        className={styles.vehicleImg}
+      />
 
       <div className={styles.pricingContainer}>
         <p className={styles.price}>
-          ₹{price}.00/<span>day</span>
+          ₹{vehicleData.price_per_day}/<span>day</span>
         </p>
 
         <button type='button' className={styles.rentNowButton}>
