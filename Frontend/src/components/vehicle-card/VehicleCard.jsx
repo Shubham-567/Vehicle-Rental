@@ -4,7 +4,7 @@ const VehicleCard = ({
   vehicleName = "Toyota Corolla",
   brand = "Toyota",
   imgUrl = "https://cdni.autocarindia.com/ExtraImages/20220401051803_Toyota%20GR%20Corolla.jpg",
-  price = 999.0,
+  price = 999,
 }) => {
   return (
     <div className={styles.card}>
@@ -15,7 +15,7 @@ const VehicleCard = ({
 
       <div className={styles.pricingContainer}>
         <p className={styles.price}>
-          ${price}/<span>day</span>
+          ₹{price}.00/<span>day</span>
         </p>
 
         <button type='button' className={styles.rentNowButton}>

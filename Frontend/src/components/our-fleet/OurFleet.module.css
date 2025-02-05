@@ -47,6 +47,11 @@
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+.categoryFilter button:active,
+.loadMore:active {
+  transform: scale(0.95);
+}
+
 .categoryFilter button:hover {
   background-color: #e0e0e0;
 }
@@ -56,7 +61,7 @@
   color: #fff;
 }
 .categoryFilter .active:hover {
-  background-color: #33afe8;
+  background-color: #2a94c4;
 }
 
 .gridContainer {
@@ -77,4 +82,22 @@
 .loadMore:hover {
   background-color: hsl(199, 80%, 45%);
   transform: translateY(-5px);
+}
+
+@media (max-width: 1203px) {
+  .gridContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .gridContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
 }

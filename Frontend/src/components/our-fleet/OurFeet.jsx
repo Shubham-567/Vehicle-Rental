@@ -1,7 +1,36 @@
+import { useState } from "react";
 import styles from "./OurFleet.module.css";
 import VehicleCard from "../vehicle-card/VehicleCard";
 
 const OurFleet = () => {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [visibleVehicles, setVisibleVehicles] = useState(8);
+
+  const vehicles = [
+    { id: 1, name: "Car 1", category: "Car" },
+    { id: 2, name: "Bike 1", category: "Bike" },
+    { id: 3, name: "SUV 1", category: "SUV" },
+    { id: 4, name: "Car 2", category: "Car" },
+    { id: 5, name: "Bike 2", category: "Bike" },
+    { id: 6, name: "SUV 2", category: "SUV" },
+    { id: 7, name: "Car 3", category: "Car" },
+    { id: 8, name: "Bike 3", category: "Bike" },
+    { id: 9, name: "SUV 3", category: "SUV" },
+    { id: 10, name: "Car 4", category: "Car" },
+    { id: 11, name: "Bike 4", category: "Bike" },
+    { id: 12, name: "SUV 4", category: "SUV" },
+  ];
+
+  const filteredVehicles = vehicles.filter(
+    (vehicle) => activeCategory === "All" || vehicle.category === activeCategory
+  );
+
+  const displayedVehicles = filteredVehicles.slice(0, visibleVehicles);
+
+  const loadMoreHandler = () => {
+    setVisibleVehicles((prev) => prev + 4);
+  };
+
   return (
     <section className={styles.ourFleet}>
       <div className={styles.sectionHeading}>
@@ -13,28 +42,31 @@ const OurFleet = () => {
       </div>
 
       <div className={styles.categoryFilter}>
-        <button type='button' className={styles.active}>
-          All
-        </button>
-        <button type='button'>Car</button>
-        <button type='button'>Bike</button>
-        <button type='button'>Suv</button>
+        {["All", "Car", "Bike", "SUV"].map((category) => (
+          <button
+            key={category}
+            type='button'
+            className={activeCategory === category ? styles.active : ""}
+            onClick={() => setActiveCategory(category)}>
+            {category}
+          </button>
+        ))}
       </div>
 
       <div className={styles.gridContainer}>
-        <VehicleCard />
-        <VehicleCard />
-        <VehicleCard />
-        <VehicleCard />
-        <VehicleCard />
-        <VehicleCard />
-        <VehicleCard />
-        <VehicleCard />
+        {displayedVehicles.map((vehicle) => (
+          <VehicleCard key={vehicle.id} vehicleName={vehicle.name} />
+        ))}
       </div>
 
-      <button type='button' className={styles.loadMore}>
-        Load More
-      </button>
+      {filteredVehicles.length > visibleVehicles && (
+        <button
+          type='button'
+          className={styles.loadMore}
+          onClick={loadMoreHandler}>
+          Load More
+        </button>
+      )}
     </section>
   );
 };
