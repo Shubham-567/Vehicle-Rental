@@ -1,0 +1,63 @@
+.sectionHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.sectionHeading h2 {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-size: 3rem;
+  width: 90%;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.sectionHeading p {
+  margin: 0;
+  margin-right: 50px;
+  padding: 0;
+  font-size: 1.25rem;
+  font-weight: normal;
+  width: 70%;
+  line-height: 1.5;
+  color: #666;
+}
+
+.benefits {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  justify-content: center;
+  margin: 0 50px;
+}
+
+.benefitCard {
+  padding: 16px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.benefitImg {
+  width: 55%;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 30px;
+  background-color: #f5f5f5;
+  margin: 0 auto 10px;
+}
+
+.benefitText h4 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin: 10px 0 5px;
+  width: 90%;
+}
+
+.benefitText p {
+  font-size: 1rem;
+  color: #aaa;
+  margin: 0;
+}
