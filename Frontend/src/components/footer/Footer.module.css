@@ -1,0 +1,95 @@
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 50px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background-color: #232323;
+  color: #ffffff;
+  padding: 40px 60px;
+}
+
+.leftBox {
+  width: 40%;
+  min-width: 280px;
+}
+
+.leftBox img {
+  width: 200px;
+  filter: invert(100%);
+}
+
+.leftBox label {
+  display: block;
+  font-size: 1.2rem;
+  margin: 15px 0 10px;
+}
+
+.emailContainer {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.emailContainer input {
+  font-size: 1rem;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+  outline: none;
+  flex: 1;
+  min-width: 180px;
+}
+
+.emailContainer button {
+  font-size: 1rem;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  border: none;
+  background-color: #ff9d00;
+  color: #232323;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.emailContainer button:hover {
+  background-color: #cc7f00;
+  transform: scale(1.05);
+}
+
+.rightBox {
+  width: 50%;
+  min-width: 300px;
+  display: flex;
+  justify-content: space-around;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+}
+
+.links p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.links a {
+  margin: 3px 0;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  color: #ff9d00;
+  cursor: pointer;
+}

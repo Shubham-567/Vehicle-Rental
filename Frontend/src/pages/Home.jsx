@@ -4,6 +4,7 @@ import OurFleet from "../components/our-fleet/OurFeet";
 import Steps from "../components/steps/Steps";
 import WhyUs from "../components/why-choose-us/WhyUs";
 import CallToAction from "../components/CTA/CallToAction";
+import Footer from "../components/footer/Footer";
 
 const Home = () => {
   return (
@@ -19,6 +20,7 @@ const Home = () => {
       <hr />
       <CallToAction />
       <hr />
+      <Footer />
     </>
   );
 };
