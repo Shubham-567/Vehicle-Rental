@@ -1,0 +1,52 @@
+.callToAction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background-color: #28d5e233;
+  padding: 40px 20px;
+}
+
+.textContainer {
+  width: 50%;
+}
+
+.imgContainer {
+  width: 40%;
+  border-radius: inherit;
+}
+
+.textContainer h4 {
+  font-size: 4rem;
+  font-weight: bold;
+}
+
+.textContainer p {
+  font-size: 1.2rem;
+  color: #888;
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.textContainer button {
+  padding: 0.4em 1.2em;
+  font-size: 1.4rem;
+  border: none;
+  border-radius: 0.5em;
+  background-color: #ff6f00;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.textContainer button:active {
+  transform: scale(0.8);
+}
+
+.textContainer button:hover {
+  background-color: #e66300;
+  transform: translateY(-5px);
+}

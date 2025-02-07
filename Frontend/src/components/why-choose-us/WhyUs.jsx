@@ -19,7 +19,7 @@ const WhyUs = () => {
         <div className={styles.benefitCard}>
           <img
             src={carCollectionIcon}
-            alt='Illustration of car parking'
+            alt='car icon'
             className={styles.benefitImg}
           />
           <div className={styles.benefitText}>
@@ -36,7 +36,7 @@ const WhyUs = () => {
         <div className={styles.benefitCard}>
           <img
             src={saveMoneyIcon}
-            alt='Illustration of car parking'
+            alt='money icon'
             className={styles.benefitImg}
           />
           <div className={styles.benefitText}>
@@ -53,7 +53,7 @@ const WhyUs = () => {
         <div className={styles.benefitCard}>
           <img
             src={paymentIcon}
-            alt='Illustration of car parking'
+            alt='payment icon'
             className={styles.benefitImg}
           />
           <div className={styles.benefitText}>
@@ -68,7 +68,7 @@ const WhyUs = () => {
         <div className={styles.benefitCard}>
           <img
             src={supportIcon}
-            alt='Illustration of car parking'
+            alt='support icon'
             className={styles.benefitImg}
           />
           <div className={styles.benefitText}>
