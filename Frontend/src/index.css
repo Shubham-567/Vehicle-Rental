@@ -17,6 +17,6 @@ section {
 hr {
   border: none;
   border-bottom: 10px dotted rgb(255, 187, 0);
-  width: 100px;
+  width: 200px;
   margin: 50px auto;
 }

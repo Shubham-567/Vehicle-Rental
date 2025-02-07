@@ -12,11 +12,11 @@ const Home = () => {
       <Navbar />
       <Hero />
       <hr />
+      <WhyUs />
+      <hr />
       <Steps />
       <hr />
       <OurFleet />
-      <hr />
-      <WhyUs />
       <hr />
       <CallToAction />
       <hr />
